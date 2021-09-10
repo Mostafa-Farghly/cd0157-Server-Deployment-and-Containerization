@@ -26,6 +26,7 @@ phases:
         - sed -i 's@CONTAINER_IMAGE@'"$REPOSITORY_URI:$TAG"'@' simple_jwt_api.yml
         - $(aws ecr get-login --no-include-email)
         - export KUBECONFIG=$HOME/.kube/config
+        - docker login -u $DOCKER_USER -p $DOCKER_PASS 
   build:
     commands:
       - docker build --tag $REPOSITORY_URI:$TAG .
@@ -42,3 +43,5 @@ artifacts:
 env:
   parameter-store:         
     JWT_SECRET: JWT_SECRET
+    DOCKER_USER: DOCKER_USER
+    DOCKER_PASS: DOCKER_PASS
